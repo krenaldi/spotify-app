@@ -3,8 +3,6 @@ const querystring = require('querystring');
 require('dotenv').config();
 const axios = require('axios');
 
-console.log(process.env.CLIENT_ID);
-
 const app = express();
 
 const PORT = 8888;
@@ -58,19 +56,16 @@ app.get('/callback', (req, res) => {
     }
   }).then(response => {
     if (response.status === 200) {
-      const { access_token, token_type } = response.data;
+      const { access_token, refresh_token } = response.data;
 
-      axios.get('https://api.spotify.com/v1/me', {
-        headers: {
-          Authorization: `${token_type} ${access_token}`
-        }
-      }).then(response => {
-        res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-      }).catch(error => {
-        res.send(error);
+      const queryParams = querystring.stringify({
+        access_token,
+        refresh_token
       });
+
+      res.redirect(`http://localhost:3000/?${queryParams}`);
     } else {
-      res.send(response);
+      res.redirect(`/?${querystring.stringify({ error: 'invalid token' })}`);
     }
   }).catch(error => {
     res.send(error);
