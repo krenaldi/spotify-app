@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import { accessToken, logout, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
 import './App.css';
@@ -7,6 +7,17 @@ import './App.css';
 function App() {
   const [token, setToken] = useState(null);
   const [profile, setProfile] = useState(null);
+
+  // Scroll to the top when changing routes
+  function ScrollToTop() {
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, [pathname])
+
+    return null;
+  }
 
   useEffect(() => {
     setToken(accessToken);
@@ -32,6 +43,7 @@ function App() {
           </a>
         ) : (
           <Router>
+            <ScrollToTop />
             <Switch>
               <Route path="/top-artists">
                 <h1>Top Artists</h1>
