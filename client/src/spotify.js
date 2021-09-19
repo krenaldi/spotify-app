@@ -119,3 +119,8 @@ export const getCurrentUserProfile = () => axios.get('/me');
 export const getCurrentUserPlaylists = (limit = 20) => {
   return axios.get(`/me/playlists?limit=${limit}`)
 }
+
+/* Get User's Top Artists and Tracks */
+export const getTopArtists = (time_range = 'short_term') => {
+  return axios.get(`/me/top/artists?time_range=${time_range}`);
+}
