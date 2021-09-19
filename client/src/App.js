@@ -2,7 +2,17 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch, useLocation } from 'react-router-dom';
 import { accessToken, logout, getCurrentUserProfile } from './spotify';
 import { catchErrors } from './utils';
-import './App.css';
+import { GlobalStyle } from './styles';
+import styled from 'styled-components/macro';
+
+const StyledLoginButton = styled.a`
+  background-color: var(--green);
+  color: var(--white);
+  padding: 10px 20px;
+  margin: 20px;
+  border-radius: 30px;
+  display: inline-block;
+`
 
 function App() {
   const [token, setToken] = useState(null);
@@ -24,23 +34,22 @@ function App() {
 
     const fetchData = async () => {
       const { data } = await getCurrentUserProfile();
-      console.log(data);
+      // console.log(data);
       setProfile(data);
     };
-
     catchErrors(fetchData());
   }, [])
 
   return (
     <div className="App">
+      <GlobalStyle />
       <header className="App-header">
         {!token ? (
-          <a
-            className="App-link"
+          <StyledLoginButton
             href="http://localhost:8888/login"
           >
-            Login to Spotify
-          </a>
+            Log in to Spotify
+          </StyledLoginButton>
         ) : (
           <Router>
             <ScrollToTop />
