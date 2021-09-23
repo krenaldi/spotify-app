@@ -6,7 +6,7 @@ const TrackList = ({ tracks }) => (
     {tracks && tracks.length ? (
       <StyledTrackList>
         {tracks.map((track, i) => (
-          <li className="track__item">
+          <li className="track__item" key={i}>
             <div className="track__item__num">{i + 1}</div>
             <div className="track__item__title-group">
               {track.album.images.length && track.album.images[2] && (
