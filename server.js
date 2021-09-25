@@ -5,11 +5,12 @@ const axios = require('axios');
 
 const app = express();
 
-const PORT = 8888;
+const PORT = process.env.PORT || 8888;
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI = process.env.REDIRECT_URI;
+const FRONTEND_URI = process.env.FRONTEND_URI;
 
 const generateRandomString = length => {
   let text = '';
@@ -64,7 +65,7 @@ app.get('/callback', (req, res) => {
         expires_in
       });
 
-      res.redirect(`http://localhost:3000/?${queryParams}`);
+      res.redirect(`${FRONTEND_URI}/?${queryParams}`);
     } else {
       res.redirect(`/?${querystring.stringify({ error: 'invalid token' })}`);
     }
