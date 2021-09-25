@@ -2,6 +2,7 @@ const express = require('express');
 const querystring = require('querystring');
 require('dotenv').config();
 const axios = require('axios');
+const path = require('path');
 
 const app = express();
 
@@ -20,6 +21,9 @@ const generateRandomString = length => {
   }
   return text;
 }
+
+// Priority serve any static files
+app.use(express.static(path.resolve(__dirname, './client/build')));
 
 const stateKey = 'spotify_auth_state';
 
@@ -95,6 +99,11 @@ app.get('/refresh_token', (req, res) => {
     .catch(error => {
       res.send(error);
     });
+});
+
+// All remaining requests return to the React app so it can handle routing
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './client/build', 'index.html'));
 });
 
 app.listen(PORT, () => {
