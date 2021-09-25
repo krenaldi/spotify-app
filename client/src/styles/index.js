@@ -4,3 +4,4 @@ export { default as Grid } from './Grid';
 export { default as Section } from './Section';
 export { default as StyledTrackList } from './StyledTrackList';
 export { default as RangeButtons } from './RangeButtons';
+export { default as StyledDropdown } from './StyledDropdown';

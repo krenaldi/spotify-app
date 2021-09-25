@@ -20,11 +20,9 @@ const Profile = () => {
 
       const userTopArtists = await getTopArtists();
       setTopArtists(userTopArtists.data);
-      console.log(topArtists);
 
       const userTopTracks = await getTopTracks();
       setTopTracks(userTopTracks.data);
-      console.log(topTracks);
     }
     catchErrors(fetchData());
   }, []);
