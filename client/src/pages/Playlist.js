@@ -3,7 +3,7 @@ import { useParams } from 'react-router';
 import axios from 'axios';
 import { getPlaylistById, getAudioFeaturesForTracks } from '../spotify';
 import { catchErrors } from '../utils';
-import { TrackList, SectionWrapper } from '../components'
+import { TrackList, SectionWrapper, Loader } from '../components'
 import { StyledHeader, StyledDropdown } from '../styles'
 
 const Playlist = () => {
@@ -13,7 +13,7 @@ const Playlist = () => {
   const [tracks, setTracks] = useState(null);
   const [audioFeatures, setAudioFeatures] = useState(null);
   const [sortValue, setSortValue] = useState('');
-  const sortOptions = [ 'danceability', 'tempo', 'energy'];
+  const sortOptions = ['danceability', 'tempo', 'energy'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -67,7 +67,7 @@ const Playlist = () => {
       const trackToAdd = track;
 
       if (!track.audio_features) {
-        const audioFeaturesObj =audioFeatures.find(item => {
+        const audioFeaturesObj = audioFeatures.find(item => {
           if (!item || !track) {
             return null;
           }
@@ -100,10 +100,10 @@ const Playlist = () => {
 
   return (
     <>
-    {playlist && (
-      <>
-        <StyledHeader>
-          <div className="header__inner">
+      {playlist && (
+        <>
+          <StyledHeader>
+            <div className="header__inner">
               {playlist.images.length && playlist.images[0].url && (
                 <img className="header__img" src={playlist.images[0].url} alt="Playlist Artwork" />
               )}
@@ -117,10 +117,10 @@ const Playlist = () => {
                   <span>{playlist.tracks.total} {`song${playlist.tracks.total !== 1 ? 's' : ''}`}</span>
                 </p>
               </div>
-          </div>
-        </StyledHeader>
-        <main>
-          <SectionWrapper title="Playlist" breadcrumb={true}>
+            </div>
+          </StyledHeader>
+          <main>
+            <SectionWrapper title="Playlist" breadcrumb={true}>
               <StyledDropdown active={!!sortValue}>
                 <label className="sr-only" htmlFor="order-select">Sort tracks</label>
                 <select
@@ -136,13 +136,15 @@ const Playlist = () => {
                   ))}
                 </select>
               </StyledDropdown>
-            {tracks && (
-              <TrackList tracks={sortedTracks} />
-            )}
-          </SectionWrapper>
-        </main>
-      </>
-    )}
+              {sortedTracks ? (
+                <TrackList tracks={sortedTracks} />
+              ) : (
+                <Loader />
+              )}
+            </SectionWrapper>
+          </main>
+        </>
+      )}
     </>
   )
 }
