@@ -24,7 +24,10 @@ const LoginButton = styled.a`
   }
 `
 
-const LOGIN_URI = process.env.NODE_ENV !== 'production' ? 'http://localhost:8888/login' : 'https://coffecakes-spotify-app.herokuapp.com/login'
+const LOGIN_URI =
+  process.env.NODE_ENV !== "production"
+    ? "http://localhost:8888/login"
+    : "https://coffeecake-spotify-app.onrender.com/login";
 
 const Login = () => (
   <LoginContainer>
